@@ -1,10 +1,10 @@
 <template>
     <div class="body-color body">
-         <b-container class="body-container">
+         <b-container type="dark" class="body-container">
                 <b-nav tabs fill>
-                    <b-nav-item id="tab1" @click="setActive('tab1')">Date pasaportale</b-nav-item>
-                    <b-nav-item id="tab2" @click="setActive('tab2')">Adresa</b-nav-item>
-                    <b-nav-item id="tab3" @click="setActive('tab3')">Resetare parola</b-nav-item>
+                    <b-nav-item link-classes="label-navbar" id="tab1" @click="setActive('tab1')">Date pasaportale</b-nav-item>
+                    <b-nav-item link-classes="label-navbar" id="tab2" @click="setActive('tab2')">Adresa</b-nav-item>
+                    <b-nav-item link-classes="label-navbar" id="tab3" @click="setActive('tab3')">Resetare parola</b-nav-item>
                 </b-nav>
                 <b-container v-if="currentTab == 'tab1'" class="body-container">
                     <b-row>
@@ -228,10 +228,10 @@
                 <b-container>
                      <b-row>
                         <b-col class="col-3">
-                             <b-button block variant="primary" @click="save">Salvare</b-button>
+                             <b-button block variant="dark" @click="save">Salvare</b-button>
                         </b-col>
                         <b-col class="col-3">
-                             <b-button block variant="outline-secondary" @click="cancel">Renunta</b-button>
+                             <b-button block variant="secondary" @click="cancel">Renunta</b-button>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -240,6 +240,10 @@
 </template>
 
 <style> 
+  .label-navbar 
+  {
+    color:black!important
+  }
 </style>
 
 <script lang="ts">
@@ -251,9 +255,10 @@ import { KeyValue, SelectItem } from '@/models/helper.keyvalue';
 import { ICustomer } from '../models/user.customer';
 import { IAddress } from '../models/user.address';
 import { PasswordValidator } from '../models/user.password';
+import { CustomComponent } from '../CustomComponent';
 
 @Component
-export default class Account extends Vue
+export default class Account extends CustomComponent
 { 
     currentTab: string = "tab1";
 
@@ -268,10 +273,6 @@ export default class Account extends Vue
         const { dirty, validated, valid } = context;
 
         return dirty || validated ? valid : null;
-    }
-    
-    back(){
-        this.$router.back();
     }
     
     setActive(elementId: string)
@@ -296,6 +297,11 @@ export default class Account extends Vue
 
     save()
     {}
+
+    public back()
+    {
+        this.$router.back();
+    }
 
     cancel() { this.back(); }
     

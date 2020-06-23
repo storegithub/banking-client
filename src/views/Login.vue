@@ -122,6 +122,7 @@ export default class Login extends Vue
 
     resetPassword()
     {
+        debugger;
         this.$router.push({ name: "ResetPassword" });
     }
  

@@ -36,13 +36,14 @@ import { KeyValue } from '@/models/helper.keyvalue';
 import BankAccountCardComponent from '@/components/BankAccountCard.vue';
 import { Portfolio } from '@/models/portfolio.interface';
 import { BankAccountItem } from '@/models/bank.account.item';
+import { CustomComponent } from '../CustomComponent';
 
 @Component({
     components: {   
         'bank-account-card': BankAccountCardComponent
     }
 })
-export default class PortfolioPage extends Vue
+export default class PortfolioPage extends CustomComponent
 { 
     constructor()
     {
@@ -60,8 +61,9 @@ export default class PortfolioPage extends Vue
 
         return dirty || validated ? valid : null;
     }
-    
-    back(){
+  
+    public back()
+    {
         this.$router.back();
     }
 

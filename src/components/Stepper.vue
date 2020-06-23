@@ -29,13 +29,13 @@
 
       <b-row>
           <b-col class="stepperControlLeft" v-if="firstPage.order !== currentPage.order" >
-            <b-button variant="primary" @click="previous">Inapoi</b-button>
+            <b-button variant="dark" @click="previous">Inapoi</b-button>
           </b-col>
           <b-col  class="stepperControlRight" v-if="currentPage.order == firstPage.order || currentPage.order < lastPage.order">
-            <b-button :disabled="canContinue == false" variant="primary" @click="next">Inainte</b-button>
+            <b-button :disabled="canContinue == false" variant="dark" @click="next">Inainte</b-button>
           </b-col> 
           <b-col class="stepperControlRight" v-if="lastPage.order == currentPage.order">
-            <b-button :disabled="canFinish == false" variant="primary" @click="done">Finalizare</b-button>
+            <b-button :disabled="canFinish == false" variant="dark" @click="done">Finalizare</b-button>
           </b-col>
       </b-row>
     </b-container>

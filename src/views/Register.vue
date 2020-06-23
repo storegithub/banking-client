@@ -148,6 +148,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator';
 import { ValidationContext } from 'vee-validate/dist/types/components/common';
 import Stepper from '@/components/Stepper.vue';
+import { CustomComponent } from '../CustomComponent';
 
 
 @Component({
@@ -155,9 +156,8 @@ import Stepper from '@/components/Stepper.vue';
         Stepper
     }
 })
-export default class Register extends Vue
-{ 
-
+export default class Register extends CustomComponent
+{
     private _pidSertial!: string;
     get pidSerial() :string
     {
@@ -229,7 +229,9 @@ export default class Register extends Vue
 
         return dirty || validated ? valid : null;
     }
-    back(){
+
+    public back()
+    {
         this.$router.back();
     }
 }

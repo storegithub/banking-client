@@ -72,6 +72,14 @@ const routes: Array<RouteConfig> =
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Contact.vue'),
+    meta: {
+      requiresAuth: false
+    }
   }
 ]
 
@@ -94,7 +102,7 @@ router.beforeEach((to, from, next) =>
       if(to.name == "Login" && accessToken != null)  
         next({ path: '/', params: { nextUrl: to.fullPath } });
       else if ( accessToken == null) 
-        next({ path: '/login', params: { nextUrl: to.fullPath } })
+        next({ path: '/login' })
       else
         next();
   }

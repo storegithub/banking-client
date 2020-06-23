@@ -4,6 +4,8 @@
     
     <div>
       <b-navbar type="dark" variant="dark" toggleable="sm">
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item href="javascript:void(0)" @click="goto('/portfolio')">Home</b-nav-item>

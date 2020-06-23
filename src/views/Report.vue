@@ -15,15 +15,15 @@ import { ValidationContext } from 'vee-validate/dist/types/components/common';
 import Stepper from '@/components/Stepper.vue';
 import { IStepperSetting } from '../models/stepper.setting';
 import { KeyValue } from '@/models/helper.keyvalue';
+import  { CustomComponent }  from '../CustomComponent';
 
 @Component
-export default class Report extends Vue
+export default class Report extends CustomComponent
 {  
-    
-    back(){
+    back()
+    {
         this.$router.back();
     }
-    
 }
 
 </script>

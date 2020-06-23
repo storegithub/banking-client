@@ -14,5 +14,9 @@ import Stepper from '@/components/Stepper.vue';
 export default class Home extends Vue
 { 
 
+  public back()
+    {
+        this.$router.back();
+    }
 }
 </script>

@@ -111,13 +111,14 @@ import { ValidationContext } from 'vee-validate/dist/types/components/common';
 import Stepper from '@/components/Stepper.vue';
 import { IStepperSetting } from '../models/stepper.setting';
 import { KeyValue } from '@/models/helper.keyvalue';
+import { CustomComponent } from '../CustomComponent';
 
 @Component({
     components: {
         Stepper
     }
 })
-export default class ChangePassword extends Vue
+export default class ChangePassword extends CustomComponent
 { 
     public stepperSettings: string = JSON.stringify([
         { id: "tab1", title: "Completeaza datele", subtitle: null, icon: "arrow-up", useIcon: false, order: 1 },
@@ -142,8 +143,8 @@ export default class ChangePassword extends Vue
     get canContinue(): boolean { return true; }
     get canFinish(): boolean { return true; }
 
-
-    back(){
+    public back()
+    {
         this.$router.back();
     }
     
