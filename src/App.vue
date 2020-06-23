@@ -1,9 +1,29 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <div>
+      <b-navbar type="dark" variant="dark" toggleable="sm">
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item href="javascript:void(0)" @click="goto('/portfolio')">Home</b-nav-item>
+            <b-nav-item href="javascript:void(0)" @click="goto('/about')">About</b-nav-item>
+          </b-navbar-nav>
+
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+              
+            <b-nav-item-dropdown right>
+              <template v-slot:button-content>
+                <em>{{authenticatedUser.firstName}} {{authenticatedUser.lastName}} </em>
+              </template>
+              <b-dropdown-item href="javascript:void(0)" @click="goto('/account')">Profile</b-dropdown-item>
+              <b-dropdown-item href="javascript:void(0)" @click="clearSession()">Sign Out</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div> 
     <router-view/>
   </div>
 </template>
@@ -17,16 +37,46 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
+
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+import { ValidationContext } from 'vee-validate/dist/types/components/common';
+import { SessionUser } from '@/models/user.session';
+import { AppConstants } from './App.Constants';
+
+
+@Component
+export default class App extends Vue
+{
+  goto(path: string)
+  {
+    if(this.$router.currentRoute.path !== path)
+      this.$router.push({ path: path });
+  }
+
+  get isAuthnticated(): boolean
+  {
+    const token: string | null = localStorage.getItem(AppConstants.auth_token);
+
+    return token !== null;
+  }
+
+  get authenticatedUser(): SessionUser
+  {
+    const jsonUser: string | null = localStorage.getItem(AppConstants.session_user);
+    if(jsonUser == null)
+      return new SessionUser("");
+    return new SessionUser(jsonUser);
+  }
+
+  public clearSession(): void
+  {
+    let authToken: string | null = localStorage.getItem(AppConstants.auth_token), 
+        sessionUser: string | null = localStorage.getItem(AppConstants.session_user);
+
+    if (authToken != null)  localStorage.removeItem(AppConstants.auth_token);
+    if (sessionUser != null)  localStorage.removeItem(AppConstants.session_user);
+  }
+}
+</script>
