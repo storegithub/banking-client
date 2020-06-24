@@ -11,13 +11,40 @@
                 </b-card>
             </div>
             
-            <bank-account-card label="Cont curent" @handler="handlePopup" :values="JSON.stringify(model.currentAccounts)"></bank-account-card>
+            <bank-account-card 
+                label="Cont curent" 
+                bankAccountType="CurrentAccount"
+                :canAdd="canAdd"
+                @onEditBanckAccount="onEditBanckAccount" 
+                @onCreateBankAccount="onCreateBankAccount" 
+                :values="JSON.stringify(model.currentAccounts)">
+            </bank-account-card>
 
-            <bank-account-card label="Economii" @handler="handlePopup" :values="JSON.stringify(model.economies)"></bank-account-card> 
+            <bank-account-card 
+                label="Economii" 
+                :canAdd="canAdd"
+                bankAccountType="Economies"
+                @onEditBanckAccount="onEditBanckAccount" 
+                @onCreateBankAccount="onCreateBankAccount" 
+                :values="JSON.stringify(model.economies)">
+            </bank-account-card> 
 
-            <bank-account-card label="Depozite" @handler="handlePopup" :values="JSON.stringify([])"></bank-account-card> 
+            <bank-account-card 
+                label="Depozite" 
+                bankAccountType="Deposit"
+                :canAdd="canAdd"
+                @onEditBanckAccount="onEditBanckAccount" 
+                @onCreateBankAccount="onCreateBankAccount" 
+                :values="JSON.stringify([])">
+            </bank-account-card> 
 
-            <bank-account-card label="Imprumuturi" @handler="handlePopup" :values="JSON.stringify([])"></bank-account-card> 
+            <bank-account-card 
+                label="Imprumuturi" 
+                bankAccountType="Due"
+                @onEditBanckAccount="onEditBanckAccount" 
+                @onCreateBankAccount="onCreateBankAccount" 
+                :values="JSON.stringify([])">
+            </bank-account-card> 
 
         </b-container>
     </div>
@@ -37,6 +64,7 @@ import BankAccountCardComponent from '@/components/BankAccountCard.vue';
 import { Portfolio } from '@/models/portfolio.interface';
 import { BankAccountItem } from '@/models/bank.account.item';
 import { CustomComponent } from '../CustomComponent';
+import { Mocks } from '@/mocks';
 
 @Component({
     components: {   
@@ -45,35 +73,45 @@ import { CustomComponent } from '../CustomComponent';
 })
 export default class PortfolioPage extends CustomComponent
 { 
+    public canAdd: boolean = true;
+    public model: Portfolio = new Portfolio();
+    public get currentAccounts(): string { return JSON.stringify(this.model.currentAccounts); }
+    public get economies(): string { return JSON.stringify(this.model.economies); }
+    public get deposits(): string { return JSON.stringify(this.model.deposits); } 
+    public get dues(): string { return JSON.stringify(this.model.dues); }
+
     constructor()
     {
-        super();
-        this.model.currentAccounts.push(BankAccountItem.map({ id: 1, alias: "", amount: 550, currency: "RON", accountType: "CurrentAccount", display: "Cont curent" }));
-        this.model.currentAccounts.push(BankAccountItem.map({ id: 2, alias: "", amount: 100, currency: "RON", accountType: "CurrentAccount", display: "Cont curent" }));
-
-        this.model.economies.push(BankAccountItem.map({ id: 3, alias: "", amount: 5000, currency: "RON", accountType: "Econimies", display: "Cont economii" }));
-        this.model.economies.push(BankAccountItem.map({ id: 4, alias: "", amount: 800, currency: "RON", accountType: "Econimies", display: "Cont economii" }));
+        super(); 
     }
 
+    mounted()
+    {
+        this.model.currentAccounts = Mocks.BankAccounts.filter(item => item.accountType == 'CurrentAccount');
+        this.model.economies = Mocks.BankAccounts.filter(item => item.accountType == 'Economies');
+        this.model.dues = Mocks.BankAccounts.filter(item => item.accountType == 'Due');
+        this.model.deposits = Mocks.BankAccounts.filter(item => item.accountType == 'Deposit');
+    }
     
     getValidationState(context: ValidationContext) {
         const { dirty, validated, valid } = context;
 
         return dirty || validated ? valid : null;
+    } 
+    
+    public onCreateBankAccount(bankAccountType: string)
+    {
+        this.$router.push({ name: "NewBankAccount", params: { type: bankAccountType.toLowerCase() } });
     }
-  
+
+    public onEditBanckAccount({ id, accountType }: BankAccountItem)
+    {
+        this.$router.push({ name: "ViewBankAccount", params: { id: id.toString() } });
+    }
+
     public back()
     {
         this.$router.back();
-    }
-
-    public model: Portfolio = new Portfolio();
-
-    public defaultAccount: string = `{"id":-1,"alias":null,"accountType":"Current","amount":555,"currency":"RON"}`;
-
-    public handlePopup({ id, accountType }: BankAccountItem)
-    {
-        // console.table({ id, accountType });
     }
     
 }

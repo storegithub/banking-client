@@ -7,7 +7,7 @@
             <div class="col-sm-2 col-md-2">
                 <display-text :value="model.money"></display-text>
             </div>
-            <div class="col-sm-2 col-md-2">
+            <div class="col-sm-2 col-md-2 right">
                 <b-button pill class="font-size-90" @click="open" variant="outline-secondary"><b-icon-window></b-icon-window></b-button>
             </div>
         </div>
@@ -46,7 +46,7 @@ export default class BankAccount extends Vue
 
     public open(): void
     { 
-        this.$emit("handleClick", this.model);
+        this.$emit("onEditBanckAccount", this.model);
     }
 }
 

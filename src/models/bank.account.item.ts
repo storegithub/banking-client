@@ -1,3 +1,5 @@
+import { SelectItem } from '@/models/helper.keyvalue';
+
 export class BankAccountItem
 {  
     public id!: number;
@@ -6,6 +8,10 @@ export class BankAccountItem
     public accountType!: string;
     public amount!: number;
     public currency!: string; 
+    public accountNo!: string;
+
+    public currencies: SelectItem<string, string>[] = [];
+    public accountTypes: SelectItem<string, string>[] = [];
 
     public get money(): string
     {

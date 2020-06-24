@@ -4,10 +4,13 @@
     
     <div>
       <b-navbar type="dark" variant="dark" toggleable="sm">
+         <b-navbar-brand v-if="enableBackbutton == true">
+            <b-button variant="dark"><b-icon icon="arrow-left" @click="back"></b-icon></b-button>
+        </b-navbar-brand >
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         
         <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav>
+          <b-navbar-nav v-if="enableBackbutton == false" >
             <b-nav-item href="javascript:void(0)" @click="goto('/portfolio')">Home</b-nav-item>
             <b-nav-item href="javascript:void(0)" @click="goto('/about')">About</b-nav-item>
           </b-navbar-nav>
@@ -45,8 +48,7 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { ValidationContext } from 'vee-validate/dist/types/components/common';
 import { SessionUser } from '@/models/user.session';
-import { AppConstants } from './App.Constants';
-
+import { AppConstants } from './App.Constants'; 
 
 @Component
 export default class App extends Vue
@@ -56,6 +58,8 @@ export default class App extends Vue
     if(this.$router.currentRoute.path !== path)
       this.$router.push({ path: path });
   }
+
+  public get enableBackbutton(): boolean { return this.isAuthnticated && this.$route.name != "Portfolio" && this.$route.name != "Contact" && this.$route.name != "About"; }
 
   get isAuthnticated(): boolean
   {
@@ -80,5 +84,10 @@ export default class App extends Vue
     if (authToken != null)  localStorage.removeItem(AppConstants.auth_token);
     if (sessionUser != null)  localStorage.removeItem(AppConstants.session_user);
   }
+
+  public back()
+    {
+        this.$router.back();
+    }
 }
 </script>

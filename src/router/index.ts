@@ -20,7 +20,7 @@ const routes: Array<RouteConfig> =
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: () => import('../views/About.vue'),
     meta: {
       requiresAuth: false
     }
@@ -28,7 +28,7 @@ const routes: Array<RouteConfig> =
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue'),
+    component: () => import('../views/Login.vue'),
     meta: {
       requiresAuth: false
     }
@@ -36,7 +36,7 @@ const routes: Array<RouteConfig> =
   {
     path: '/resetpassword',
     name: 'ResetPassword',
-    component: () => import(/* webpackChunkName: "about" */ '../views/ChangePassword.vue'),
+    component: () => import('../views/ChangePassword.vue'),
     meta: {
       requiresAuth: false
     }
@@ -44,7 +44,7 @@ const routes: Array<RouteConfig> =
   {
     path: '/register',
     name: 'Register',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Register.vue'),
+    component: () => import('../views/Register.vue'),
     meta: {
       requiresAuth: false
     }
@@ -52,7 +52,7 @@ const routes: Array<RouteConfig> =
   {
     path: '/account',
     name: 'Account',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Account.vue'),
+    component: () => import('../views/Account.vue'),
     meta: {
       requiresAuth: true
     }
@@ -60,7 +60,7 @@ const routes: Array<RouteConfig> =
   {
     path: '/report',
     name: 'Report',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Report.vue'),
+    component: () => import('../views/Report.vue'),
     meta: {
       requiresAuth: true
     }
@@ -68,7 +68,7 @@ const routes: Array<RouteConfig> =
   {
     path: '/portfolio',
     name: 'Portfolio',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Portfolio.vue'),
+    component: () => import('../views/Portfolio.vue'),
     meta: {
       requiresAuth: true
     }
@@ -76,9 +76,25 @@ const routes: Array<RouteConfig> =
   {
     path: '/contact',
     name: 'Contact',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Contact.vue'),
+    component: () => import('../views/Contact.vue'),
     meta: {
       requiresAuth: false
+    }
+  },
+  {
+    path: '/bankaccount/view/:id',
+    name: 'ViewBankAccount',
+    component: () => import('../views/BankAccountView.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/bankaccount/new/:type',
+    name: 'NewBankAccount',
+    component: () => import( '../views/BankAccountForm.vue'),
+    meta: {
+      requiresAuth: true
     }
   }
 ]

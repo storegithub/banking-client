@@ -11,3 +11,10 @@
 .body-container {
     padding-top: 2vh;
 }
+
+.right
+{
+    text-align: right !important;
+}
+
+.left { text-align: left !important; }
