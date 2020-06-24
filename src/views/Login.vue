@@ -1,6 +1,6 @@
 <template>
     <div class="loginPage body-color">
-        <b-container class="loginContainer">
+        <b-container class="loginContainer"> 
             <b-row>
                 <b-col class="register">
                     Esti client si nu ai un cont?  

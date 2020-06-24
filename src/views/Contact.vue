@@ -1,30 +1,87 @@
 <template>
     <div class="body-color body">
-      <b-container class="body-container">
-        Contact
-      </b-container>
-    </div>
+      <!-- <b-container class="body-container" text="Contact"> -->
+          <form>
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email" placeholder="Your name..">
+
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="Your name..">
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Your last name..">
+
+            <label for="phone">Your phone number.</label>
+            <input type="text" id="phone" name="phone" placeholder="Phone">
+            
+            <label for="message">Your message</label>
+            <input type="text" id="message" name="message" placeholder="Message">
+            <!-- <label for="country">Country</label>
+            <select id="country" name="country">
+              <option value="australia">Australia</option>
+              <option value="canada">Canada</option>
+              <option value="usa">USA</option>
+            </select> -->
+  
+    <input type="submit" value="Submit">
+  </form>
+</div>
+      <!-- </b-container> -->
     
 </template>
 
-<style> 
-  
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+/* div {
+  border-radius: 5px;
+  background-color: #aaaaaa;
+  padding: 20px;
+} */
 </style>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'; 
 import { IAboutUs } from '@/models/about.interface';
 import { CustomComponent } from '../CustomComponent';
+import { ICustomer } from '../models/user.customer';
+import { IUserResponse } from '../models/user.response';
+import { IUserContact } from '../models/user.contact.interface';
  
 @Component
-export default class AboutComponent extends CustomComponent
+export default class CotactComponent extends Vue
 {  
     
-    public model: IAboutUs = {
-      email: "contact@homebank.com" ,
-      phone: "+4072123456",
-      details: "HomeBank este o aplicatie web internet banking destinata utilizatorilor pentru a isi gestiona finantele. Usor de folosit, HomeBank foloseste tehnologii noi si populare in randul programatorilor. Datorita Two-Factor Authentication, autentificarea utilizatorilor este sigura - protocolul Oauth2.0 este folosit."};
-
+    public model: IUserContact = {
+      email: "john.doe@email.com",
+      firstName: "John",
+      lastName: "Doe",
+      phoneNumber: "0722456789",
+      message: "Doresc sa creez un cont la banca dvs."
+    };
     
     public back()
     {

@@ -1,7 +1,8 @@
-export interface IUserContact{
-    email: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    message: string;
+export class IUserContact
+{
+    public email!: string;
+    public firstName!: string;
+    public lastName!: string;
+    public phoneNumber!: string;
+    public message!: string;
 }

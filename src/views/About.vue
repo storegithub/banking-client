@@ -58,7 +58,8 @@ export default class AboutComponent extends Vue
     public model: IAboutUs = {
       email: "contact@homebank.com" ,
       phone: "+4072123456",
-      details: "HomeBank este o aplicatie web internet banking destinata utilizatorilor pentru a isi gestiona finantele. Usor de folosit, HomeBank foloseste tehnologii noi si populare in randul programatorilor. Datorita Two-Factor Authentication, autentificarea utilizatorilor este sigura - protocolul Oauth2.0 este folosit."};
+      details: "HomeBank este o aplicatie web internet banking destinata utilizatorilor pentru a isi gestiona finantele. Usor de folosit, HomeBank foloseste tehnologii noi si populare in randul programatorilor. Datorita Two-Factor Authentication, autentificarea utilizatorilor este sigura - protocolul Oauth2.0 este folosit."
+      };
 
     back(){
         this.$router.back();
