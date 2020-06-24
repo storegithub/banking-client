@@ -1,12 +1,5 @@
 <template>
     <div class="body-color body">
-        <div>
-            <b-navbar toggleable="lg" type="dark" variant="dark">
-                <b-navbar-brand>
-                    <b-button variant="dark"><b-icon icon="arrow-left" @click="back"></b-icon></b-button>
-                </b-navbar-brand >
-            </b-navbar>
-        </div>
         <div class="stepper-position">
             <b-container>
             <b-row>

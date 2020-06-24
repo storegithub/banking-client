@@ -4,8 +4,8 @@
             <div class="col-sm-8 col-md-8 align-to-left"> 
                 <display-text :value="data"></display-text>
             </div>
-            <div class="col-sm-4 col-md-4">
-                 <!-- <button></button> -->
+            <div class="col-sm-4 col-md-4 right">
+                 <slot name="template"></slot>
             </div>
         </div>
    </div>
@@ -32,7 +32,7 @@ import DisplayText from '@/components/DisplayText.vue';
 } })
 export default class BankAccount extends Vue
 {
-    @Prop() data!: string; 
+    @Prop() data!: string;   
 }
 
 </script>
