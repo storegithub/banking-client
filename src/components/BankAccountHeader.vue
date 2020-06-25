@@ -30,7 +30,7 @@ import DisplayText from '@/components/DisplayText.vue';
 @Component({ name: 'bank-account-header', components: {
     DisplayText
 } })
-export default class BankAccount extends Vue
+export default class BankAccountHeaderComponent extends Vue
 {
     @Prop() data!: string;   
 }

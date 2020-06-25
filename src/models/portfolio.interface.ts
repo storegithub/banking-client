@@ -1,11 +1,17 @@
 import { BankAccountItem } from './bank.account.item';
 import { BankAccountTransaction } from './bankaccount.transaction';
 
-export class PortfolioDetail{
+export class PortfolioDetail
+{
     public bankAccountItem!: BankAccountItem;
-    public transaction: Array<BankAccountTransaction>=[];
+    public transactions: Array<BankAccountTransaction>=[];
     public dateStart!: string;
     public dateEnd!: string;
+
+    public formatAmount(currency: string)
+    {
+        return `${this.bankAccountItem.amount} ${currency}`;
+    }
 }
 
 export class Portfolio
