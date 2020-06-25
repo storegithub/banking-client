@@ -1,4 +1,6 @@
 import { SelectItem } from '@/models/helper.keyvalue';
+import { CustomComponent } from '@/CustomComponent';
+import Component from 'vue-class-component';
 
 export class BankAccountItem
 {  
