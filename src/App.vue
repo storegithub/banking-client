@@ -13,6 +13,7 @@
           <b-navbar-nav v-if="enableBackbutton == false" >
             <b-nav-item href="javascript:void(0)" @click="goto('/portfolio')">Home</b-nav-item>
             <b-nav-item href="javascript:void(0)" @click="goto('/about')">About</b-nav-item>
+            <b-nav-item href="javascript:void(0)" @click="goto('/Contact')">Contact</b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->

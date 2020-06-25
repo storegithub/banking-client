@@ -1,33 +1,51 @@
 <template>
     <div class="body-color body">
-      <!-- <b-container class="body-container" text="Contact"> -->
-          <form>
+      <b-container class="body-container" text="Contact"> 
+        <b-row>
+          <b-col>
             <label for="email">E-mail</label>
             <input type="text" id="email" name="email" placeholder="Your name..">
-
+          </b-col>
+          <b-col></b-col>
+        </b-row>
+        <b-row>
+          <b-col>
             <label for="firstName">First Name</label>
             <input type="text" id="firstName" name="firstName" placeholder="Your name..">
-
+          </b-col>
+          <b-col></b-col>
+        </b-row>
+        <b-row>
+          <b-col>
             <label for="lastName">Last Name</label>
             <input type="text" id="lastName" name="lastName" placeholder="Your last name..">
-
+          </b-col>
+          <b-col></b-col>
+        </b-row>
+        <b-row>
+          <b-col>
             <label for="phone">Your phone number.</label>
             <input type="text" id="phone" name="phone" placeholder="Phone">
-            
+          </b-col>
+          <b-col></b-col>
+        </b-row>
+        <b-row>
+          <b-col>
             <label for="message">Your message</label>
-            <input type="text" id="message" name="message" placeholder="Message">
-            <!-- <label for="country">Country</label>
-            <select id="country" name="country">
-              <option value="australia">Australia</option>
-              <option value="canada">Canada</option>
-              <option value="usa">USA</option>
-            </select> -->
-  
-    <input type="submit" value="Submit">
-  </form>
-</div>
-      <!-- </b-container> -->
-    
+            <b-form-textarea type="text" id="message" name="message" placeholder="Message"></b-form-textarea> 
+          </b-col>
+          <b-col></b-col>
+        </b-row> 
+        <b-row>
+          <b-col>
+             <b-button style="margin-top: 2vh" block >Submit</b-button>
+          </b-col>
+          <b-col></b-col>
+        </b-row> 
+           
+      </b-container> 
+    </div> 
+        
 </template>
 
 <style>
