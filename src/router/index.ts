@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -9,7 +8,7 @@ const routes: Array<RouteConfig> =
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: () => import('../views/Portfolio.vue'),
     meta: {
       requiresAuth: true
     }
@@ -65,14 +64,14 @@ const routes: Array<RouteConfig> =
       requiresAuth: true
     }
   },
-  {
-    path: '/portfolio',
-    name: 'Portfolio',
-    component: () => import('../views/Portfolio.vue'),
-    meta: {
-      requiresAuth: true
-    }
-  },
+  // {
+  //   path: '/portfolio',
+  //   name: 'Portfolio',
+  //   component: () => import('../views/Portfolio.vue'),
+  //   meta: {
+  //     requiresAuth: true
+  //   }
+  // },
   {
     path: '/contact',
     name: 'Contact',

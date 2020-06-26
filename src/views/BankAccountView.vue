@@ -24,7 +24,7 @@
         </bank-account-header>
 
         <div v-if="showFilter==true" class="transaction-report-container">
-            <div class="row">
+            <div class="row padding-row ">
                 <div class="col-sm-4 col-md-4">
                      <div>
                         <label for="example-datepicker">Data inceput</label>
@@ -68,6 +68,8 @@
     margin: 0vh 0vh 2vh 0vh;
     padding: 10px 0px 10px 0px;
 }
+
+.padding-row { padding:  0px 5px 0px 5px;}
 
 </style>
 

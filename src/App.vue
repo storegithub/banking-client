@@ -11,7 +11,7 @@
         
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav v-if="enableBackbutton == false" >
-            <b-nav-item href="javascript:void(0)" @click="goto('/portfolio')">Home</b-nav-item>
+            <b-nav-item href="javascript:void(0)" @click="goto('/')">Home</b-nav-item>
             <b-nav-item href="javascript:void(0)" @click="goto('/about')">About</b-nav-item>
             <b-nav-item href="javascript:void(0)" @click="goto('/Contact')">Contact</b-nav-item>
           </b-navbar-nav>
@@ -60,7 +60,7 @@ export default class App extends Vue
       this.$router.push({ path: path });
   }
 
-  public get enableBackbutton(): boolean { return this.isAuthnticated && this.$route.name != "Portfolio" && this.$route.name != "Contact" && this.$route.name != "About"; }
+  public get enableBackbutton(): boolean { return this.isAuthnticated && this.$route.name != "Contact" && this.$route.name != "About" && this.$route.name != "Home"; }
 
   get isAuthnticated(): boolean
   {
