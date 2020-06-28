@@ -3,13 +3,6 @@
       <b-container class="body-container" text="Contact"> 
         <b-row>
           <b-col>
-            <label for="email">E-mail</label>
-            <input type="text" id="email" name="email" placeholder="Your name..">
-          </b-col>
-          <b-col></b-col>
-        </b-row>
-        <b-row>
-          <b-col>
             <label for="firstName">First Name</label>
             <input type="text" id="firstName" name="firstName" placeholder="Your name..">
           </b-col>
@@ -19,6 +12,13 @@
           <b-col>
             <label for="lastName">Last Name</label>
             <input type="text" id="lastName" name="lastName" placeholder="Your last name..">
+          </b-col>
+          <b-col></b-col>
+        </b-row>
+                <b-row>
+          <b-col>
+            <label for="email">E-mail</label>
+            <input type="text" id="email" name="email" placeholder="Your name..">
           </b-col>
           <b-col></b-col>
         </b-row>
