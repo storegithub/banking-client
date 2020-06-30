@@ -6,6 +6,10 @@ import { IAboutUs } from '@/models/about.interface';
 import { AppConstants } from '@/App.Constants';
 import { IUserContact } from '@/models/user.contact.interface';
 import { IApiResult } from '@/models/api.result';
+import { IRegisterUser } from '@/models/regiter.user';
+import { IConfirmationCode } from '@/models/confirmation.code';
+import { ICheckCustomer } from '@/models/check.customer';
+import { ICodeValidate } from '@/models/caode.validate';
 
 export const authapi = axios.create({
     baseURL: "http://localhost:3002/",
@@ -63,12 +67,80 @@ export async function login(request: AuthRequest): Promise<IAuthResponse | null>
     return data;
 };
 
+export async function register(request: IRegisterUser): Promise<IApiResult | null>
+{
+    let data: IApiResult | null = null;
+    try
+    {  
+        const response: AxiosResponse<IApiResult> = await authapi.post("auth/register", request);
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
 export async function getAbout(): Promise<IAboutUs | null>
 {
     let data: IAboutUs | null = null;
     try
     { 
         const response: AxiosResponse<IAboutUs> = await api.get("about");
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
+export async function checkCustomer(request: ICheckCustomer): Promise<IConfirmationCode | null>
+{
+    let data: IConfirmationCode | null = null;
+    try
+    { 
+        const response: AxiosResponse<IConfirmationCode> = await authapi.post("auth/checkCustomer", request);
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+}; 
+
+export async function sendRegisterCode(email: string): Promise<IApiResult | null>
+{
+    let data: IApiResult | null = null;
+    try
+    { 
+        const response: AxiosResponse<IApiResult> = await authapi.post("auth/sendCode", { email: email });
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+}; 
+
+export async function validateCode(param: ICodeValidate): Promise<IApiResult | null>
+{
+    let data: IApiResult | null = null;
+    try
+    {  
+        const response: AxiosResponse<IApiResult> = await authapi.post("auth/checkRegisterCode", param);
          
         data = response.data;
     }

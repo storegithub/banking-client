@@ -145,10 +145,24 @@ export default class Stepper extends Vue {
   previous()
   {
     if(this.index ==0) return;
-    this.index--;
+    this.$emit("onPrevious", this.index - 1); 
   }
 
   next()
+  {
+    let latestIndex: number = this.config.indexOf(this.lastPage);
+    if(this.index < latestIndex && this.index > -1 )
+       this.$emit("onNext", this.index + 1);
+  }
+
+  public increment()
+  {
+    let latestIndex: number = this.config.indexOf(this.lastPage);
+    if(this.index < latestIndex && this.index > -1 )
+      this.index++;
+  }
+
+  public decrement()
   {
     let latestIndex: number = this.config.indexOf(this.lastPage);
     if(this.index < latestIndex && this.index > -1 )
@@ -156,6 +170,8 @@ export default class Stepper extends Vue {
   }
 
   done()
-  {}
+  {
+    this.$emit("onDone", this.index);
+  }
 }
 </script>

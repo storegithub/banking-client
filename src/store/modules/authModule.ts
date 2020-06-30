@@ -2,8 +2,11 @@ import { Module, VuexModule, getModule, MutationAction, Action, Mutation } from 
 import store from '@/store';
 import { IAuthResponse } from '@/models/auth.response';
 import { AuthRequest } from '@/models/auth.request';
-import { login, authapi } from '../api';
+import { login, authapi, register, checkCustomer, sendRegisterCode } from '../api';
 import { AppConstants } from '@/App.Constants';
+import { IRegisterUser } from '@/models/regiter.user';
+import { IApiResult } from '@/models/api.result';
+import { ICheckCustomer } from '@/models/check.customer'; 
 
 @Module({
     namespaced: true,
@@ -40,6 +43,7 @@ class AuthModule extends VuexModule
         return Number(obj.id);
     }
 
+
     @Action({ commit: 'setAuth' })
     async login(request: AuthRequest): Promise<IAuthResponse | null>
     {
@@ -47,6 +51,14 @@ class AuthModule extends VuexModule
          
         return value;
     }
+
+    @Action
+    async register(request: IRegisterUser): Promise<IApiResult | null>
+    {
+        const value: IApiResult | null = await register(request); 
+         
+        return value;
+    } 
 }
 
 export default getModule(AuthModule);
