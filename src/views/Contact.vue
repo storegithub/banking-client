@@ -4,41 +4,41 @@
         <b-row>
           <b-col>
             <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" placeholder="Your name..">
+            <input type="text" id="firstName" v-model="model.firstName" name="firstName" placeholder="Your name..">
           </b-col>
           <b-col></b-col>
         </b-row>
         <b-row>
           <b-col>
             <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" placeholder="Your last name..">
+            <input type="text" id="lastName" v-model="model.lastName" name="lastName" placeholder="Your last name..">
           </b-col>
           <b-col></b-col>
         </b-row>
                 <b-row>
           <b-col>
             <label for="email">E-mail</label>
-            <input type="text" id="email" name="email" placeholder="Your name..">
+            <input type="text" id="email" name="email" v-model="model.email" placeholder="Your name..">
           </b-col>
           <b-col></b-col>
         </b-row>
         <b-row>
           <b-col>
             <label for="phone">Your phone number.</label>
-            <input type="text" id="phone" name="phone" placeholder="Phone">
+            <input type="text" id="phone" name="phone" v-model="model.phoneNumber" placeholder="Phone">
           </b-col>
           <b-col></b-col>
         </b-row>
         <b-row>
           <b-col>
             <label for="message">Your message</label>
-            <b-form-textarea type="text" id="message" name="message" placeholder="Message"></b-form-textarea> 
+            <b-form-textarea type="text" id="message" name="message" v-model="model.message" placeholder="Message"></b-form-textarea> 
           </b-col>
           <b-col></b-col>
         </b-row> 
         <b-row>
           <b-col>
-             <b-button style="margin-top: 2vh" block >Submit</b-button>
+             <b-button style="margin-top: 2vh" @click="save" block >Submit</b-button>
           </b-col>
           <b-col></b-col>
         </b-row> 
@@ -88,19 +88,37 @@ import { CustomComponent } from '../CustomComponent';
 import { ICustomer } from '../models/user.customer';
 import { IUserResponse } from '../models/user.response';
 import { IUserContact } from '../models/user.contact.interface';
+import contactModule from '../store/modules/contactModule';
+import { IApiResult } from '../models/api.result';
  
 @Component
 export default class CotactComponent extends Vue
 {  
     
     public model: IUserContact = {
-      email: "john.doe@email.com",
-      firstName: "John",
-      lastName: "Doe",
-      phoneNumber: "0722456789",
-      message: "Doresc sa creez un cont la banca dvs."
+      email: "",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      message: ""
     };
     
+    public async save()
+    {
+      debugger;
+      let value: IApiResult | null =  await contactModule.post(this.model);
+      if(value != null && value.success == true) 
+      {
+        this.model = {
+          email: "",
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          message: ""
+        };
+      }
+    }
+
     public back()
     {
         this.$router.back();

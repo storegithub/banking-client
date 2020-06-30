@@ -5,7 +5,7 @@ import { ICustomer, Customer } from '@/models/user.customer';
 
 @Module({
     namespaced: true,
-    name: 'about',
+    name: 'profile',
     store,
     dynamic: true
 })

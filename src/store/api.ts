@@ -4,6 +4,8 @@ import { IAuthResponse } from '@/models/auth.response';
 import { AuthRequest } from '@/models/auth.request';
 import { IAboutUs } from '@/models/about.interface';
 import { AppConstants } from '@/App.Constants';
+import { IUserContact } from '@/models/user.contact.interface';
+import { IApiResult } from '@/models/api.result';
 
 export const authapi = axios.create({
     baseURL: "http://localhost:3002/",
@@ -116,14 +118,14 @@ export async function updateProfile(customer: Customer): Promise<ICustomer | nul
     return data;
 };
 
-export async function addContact(customer: Customer): Promise<ICustomer | null>
+export async function addContact(customer: IUserContact): Promise<IApiResult | null>
 {
-    let data: ICustomer | null = null;
+    let data: IApiResult | null = null;
     try
     { 
-        AUTHJwtHelper.set();
-        const response: AxiosResponse<ICustomer> = await authapi.put("auth", customer);
-        AUTHJwtHelper.clear();
+        // APIJwtHelper.set();
+        const response: AxiosResponse<IApiResult> = await api.post("contact", customer);
+        // APIJwtHelper.clear();
          
         data = response.data;
     }
