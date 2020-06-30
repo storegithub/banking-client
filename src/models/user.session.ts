@@ -1,14 +1,12 @@
+import { IAuthResponse } from './auth.response';
+
 export class SessionUser
 {
-    constructor(param: string)
-    {
-        if(param !== "")
-        {
-            let json: any = JSON.parse(param);
-            this.id = json.id;
-            this.firstName = json.firstName;
-            this.lastName = json.lastName;
-        }
+    constructor(firstName: string, lastName: string, id: number  )
+    {  
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.id = id;  
     }
 
     public id!: number;

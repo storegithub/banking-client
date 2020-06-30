@@ -21,7 +21,7 @@
                             Te rugam sa te autentifici
                         </div>
                     </b-input-group>
-                    <validation-provider name="Name" :rules="{ required: true, min: 8 }" v-slot="validationContext">
+                    <validation-provider name="Name" :rules="{ required: true, min: 3 }" v-slot="validationContext">
                         <b-form-group size="md" label="Utilzator" label-for="username">
                             <b-form-input 
                                 id="username"
@@ -34,7 +34,7 @@
                         <b-form-invalid-feedback id="username-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                     </validation-provider>
 
-                    <validation-provider name="Name" :rules="{ required: true, min: 5 }" v-slot="validationContext">
+                    <validation-provider name="Name" :rules="{ required: true, min: 4 }" v-slot="validationContext">
                         <b-form-group size="md" label="Parola" label-for="password"> 
                                 <b-form-input 
                                     id="password"
@@ -67,7 +67,7 @@
         text-align:  left;
     }
     .loginPage {
-        height: 100vh;
+        height: 93vh;
         
     }
     .loginContainer {
@@ -108,6 +108,9 @@
 import { Vue, Component } from 'vue-property-decorator';
 import { ValidationContext } from 'vee-validate/dist/types/components/common';
 import router from '@/router';
+import auth from '@/store/modules/authModule';
+import { AppConstants } from '@/App.Constants';
+import { IAuthResponse } from '../models/auth.response';
 
 @Component
 export default class Login extends Vue
@@ -117,7 +120,18 @@ export default class Login extends Vue
 
 
     async login()
-    {
+    { 
+        try
+        {
+            if(this.username == null || this.password == null) throw new Error("Invalid credentioals!");
+            let response: IAuthResponse | null = await auth.login({ userName: this.username, password: this.password });
+            if(response == null) throw new Error(); 
+            if(response.success==true) this.$router.push({ name: "Home" });
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
     }
 
     resetPassword()

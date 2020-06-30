@@ -1,6 +1,6 @@
 <template>
     <div class="body-color body">
-      <b-container class="body-container">
+      <b-container v-if="model != null" class="body-container">
         <div class="row about-us-label">
           <div class="col-sm-4 col-md-4"><h4>About us</h4></div>
           <div class="col-sm-4 col-md-4"></div>
@@ -50,16 +50,26 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'; 
 import { IAboutUs } from '@/models/about.interface';
+import about from '../store/modules/aboutModule';
+import aboutModule from '../store/modules/aboutModule';
  
 @Component
 export default class AboutComponent extends Vue
 {  
     
-    public model: IAboutUs = {
-      email: "contact@homebank.com" ,
-      phone: "+4072123456",
-      details: "HomeBank este o aplicatie web internet banking destinata utilizatorilor pentru a isi gestiona finantele. Usor de folosit, HomeBank foloseste tehnologii noi si populare in randul programatorilor. Datorita Two-Factor Authentication, autentificarea utilizatorilor este sigura - protocolul Oauth2.0 este folosit."
-      };
+    public model: IAboutUs | null = {
+      email: "" ,
+      phone: "",
+      details: ""
+    };
+
+    async beforeCreate()
+    {
+      const data: IAboutUs | null = await aboutModule.getAboutUs();
+      if(data == null)
+        console.log("err");
+      this.model = data;
+    }
 
     back(){
         this.$router.back();

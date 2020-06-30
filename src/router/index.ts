@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
+import authModule from '@/store/modules/authModule';
+import { AppConstants } from '@/App.Constants';
 
 Vue.use(VueRouter)
 
@@ -105,8 +107,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => 
-{
-   const accessToken: string | null = localStorage.getItem('access_token');
+{ 
+   const accessToken: string | null = localStorage.getItem(AppConstants.auth_token);
 
   if(to.matched.some(item => item.meta.requiresAuth == null || !item.meta.requiresAuth)) 
   {

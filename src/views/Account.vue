@@ -1,6 +1,6 @@
 <template>
     <div class="body-color body">
-         <b-container type="dark" class="body-container">
+         <b-container v-if="person != null" type="dark" class="body-container">
                 <b-nav tabs fill>
                     <b-nav-item link-classes="label-navbar" id="tab1" @click="setActive('tab1')">Date pasaportale</b-nav-item>
                     <b-nav-item link-classes="label-navbar" id="tab2" @click="setActive('tab2')">Adresa</b-nav-item>
@@ -9,12 +9,12 @@
                 <b-container v-if="currentTab == 'tab1'" class="body-container">
                     <b-row>
                         <b-col class="col-6">
-                            <validation-provider name="name" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="name" :rules="{ required: true, min: 2 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Nume" label-for="person-name">
                                     <b-form-input 
                                         type="text"
                                         id="person-name"
-                                        v-model="person.name" 
+                                        v-model="person.firstName" 
                                         :state="getValidationState(validationContext)"
                                         required>
                                     </b-form-input> 
@@ -25,12 +25,12 @@
                     <!-- </b-row>
                     <b-row> -->
                         <b-col class="col-6">
-                            <validation-provider name="surname" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="surname" :rules="{ required: true, min: 2 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Prenume" label-for="person-surname">
                                     <b-form-input 
                                         type="text"
                                         id="person-surname"
-                                        v-model="person.surname" 
+                                        v-model="person.lastName" 
                                         :state="getValidationState(validationContext)"
                                         required>
                                     </b-form-input> 
@@ -57,7 +57,7 @@
                     <!-- </b-row>
                     <b-row> -->
                         <b-col class="col-6">
-                            <validation-provider name="email" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="email" :rules="{ required: true, min: 2 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Email" label-for="person-email">
                                     <b-form-input 
                                         type="text"
@@ -73,7 +73,7 @@
                     </b-row>
                     <b-row>
                         <b-col class="col-6">
-                            <validation-provider name="branchName" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="branchName" :rules="{ required: true, min: 2 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Sucursala" label-for="person-branchName">
                                     <b-form-input 
                                         type="text"
@@ -95,7 +95,7 @@
                                     <b-form-select 
                                         id="person-gender" 
                                         v-model="person.gender" 
-                                        :options="genders" 
+                                        :options="person.genderDropDown" 
                                         :state="getValidationState(validationContext)">
                                     </b-form-select>
                                 </b-form-group>
@@ -105,7 +105,7 @@
                     </b-row>   
                     <b-row>
                         <b-col class="col-6">
-                            <validation-provider name="details" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="details" :rules="{ required: true, min: 2 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Detalii" label-for="person-details">
                                     <b-form-textarea 
                                         type="text"
@@ -126,12 +126,12 @@
                 <b-container v-if="currentTab == 'tab2'" class="body-container">
                     <b-row>
                         <b-col class="col-6">
-                            <validation-provider name="city" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="city" :rules="{ required: true, min: 2 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Oras" label-for="address-city">
                                     <b-form-input 
                                         type="text"
                                         id="address-city"
-                                        v-model="address.city" 
+                                        v-model="person.city" 
                                         :state="getValidationState(validationContext)"
                                         required>
                                     </b-form-input> 
@@ -142,12 +142,12 @@
                     <!-- </b-row>
                     <b-row> -->
                         <b-col class="col-6">
-                            <validation-provider name="zipCode" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="zipCode" :rules="{ required: true, min: 2 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Cod postal" label-for="address-zipCode">
                                     <b-form-input 
                                         type="text"
                                         id="address-zipCode"
-                                        v-model="person.zipCode" 
+                                        v-model="person.postalCode" 
                                         :state="getValidationState(validationContext)"
                                         required>
                                     </b-form-input> 
@@ -158,12 +158,12 @@
                     </b-row>
                     <b-row>
                         <b-col class="col-6">
-                            <validation-provider name="details" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="details" :rules="{ required: true, min: 2 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Detalii" label-for="address-details">
                                     <b-form-textarea 
                                         type="text"
                                         id="address-details"
-                                        v-model="address.details" 
+                                        v-model="person.addressDetail" 
                                         :state="getValidationState(validationContext)"
                                         rows="3"
                                         max-rows="6"
@@ -178,7 +178,7 @@
                  <b-container v-if="currentTab == 'tab3'" class="body-container">
                     <b-row>
                         <b-col class="col-6">
-                            <validation-provider name="oldPassword" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="oldPassword" :rules="{ required: true, min: 4 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Parola veche" label-for="password-oldPassword">
                                     <b-form-input 
                                         type="password"
@@ -194,7 +194,7 @@
                     </b-row>
                     <b-row>
                         <b-col class="col-6">
-                            <validation-provider name="password" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="password" :rules="{ required: true, min: 4 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Password" label-for="password-password">
                                     <b-form-input 
                                         type="password"
@@ -210,7 +210,7 @@
                     </b-row>
                     <b-row>
                         <b-col class="col-6">
-                            <validation-provider name="confirmPassword" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                            <validation-provider name="confirmPassword" :rules="{ required: true, min: 4 }" v-slot="validationContext">
                                 <b-form-group size="sm" label="Confirmare parola" label-for="password-confirmPassword">
                                     <b-form-input 
                                         type="password"
@@ -252,23 +252,22 @@ import { ValidationContext } from 'vee-validate/dist/types/components/common';
 import Stepper from '@/components/Stepper.vue';
 import { IStepperSetting } from '../models/stepper.setting';
 import { KeyValue, SelectItem } from '@/models/helper.keyvalue';
-import { ICustomer } from '../models/user.customer';
+import { ICustomer, Customer } from '../models/user.customer';
 import { IAddress } from '../models/user.address';
 import { PasswordValidator } from '../models/user.password';
 import { CustomComponent } from '../CustomComponent';
+import profileModule from '../store/modules/profileModule';
+import authModule from '../store/modules/authModule';
 
 @Component
 export default class Account extends CustomComponent
 { 
     currentTab: string = "tab1";
 
-    person: ICustomer = { id: 0, addressId: 0, branchName: "", gender: "", name: "", surname: "", phoneNo: "", email: "", details: "", userId: 0 };
-    address: IAddress = { id: 0, city: "", zipCode: "", details: "" };
+    person: Customer | null | ICustomer = null; 
 
     passwordModel: PasswordValidator = new PasswordValidator();
-
-    genders: SelectItem<string, string>[] = [{ value: 'M', text: 'Masculin' }, { value: 'F', text:'Feminin' }];
-
+ 
     getValidationState(context: ValidationContext) {
         const { dirty, validated, valid } = context;
 
@@ -295,8 +294,30 @@ export default class Account extends CustomComponent
         this.currentTab = elementId;
     }
 
-    save()
-    {}
+    async beforeCreate()
+    {
+        try
+        {
+            this.person = await profileModule.getCustomer(authModule.userId);
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
+    }
+
+    async save()
+    {
+        const profile: Customer = this.person as Customer;
+        profile.userId = authModule.userId;
+        profile.oldPassword = this.passwordModel.oldPassword;
+        profile.newPassword = this.passwordModel.password;
+        profile.confirmPassword = this.passwordModel.confirmPassword;
+
+  
+        this.person = await profileModule.updateCustomer(profile);
+        this.passwordModel = new PasswordValidator();
+    }
 
     public back()
     {

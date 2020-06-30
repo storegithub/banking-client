@@ -50,6 +50,8 @@ import { Vue, Component } from 'vue-property-decorator';
 import { ValidationContext } from 'vee-validate/dist/types/components/common';
 import { SessionUser } from '@/models/user.session';
 import { AppConstants } from './App.Constants'; 
+import authModule from '@/store/modules/authModule';
+import { IAuthResponse } from './models/auth.response';
 
 @Component
 export default class App extends Vue
@@ -63,18 +65,17 @@ export default class App extends Vue
   public get enableBackbutton(): boolean { return this.isAuthnticated && this.$route.name != "Contact" && this.$route.name != "About" && this.$route.name != "Home"; }
 
   get isAuthnticated(): boolean
-  {
-    const token: string | null = localStorage.getItem(AppConstants.auth_token);
-
-    return token !== null;
+  { 
+    return this.authenticatedUser.id > 0;
   }
 
   get authenticatedUser(): SessionUser
-  {
-    const jsonUser: string | null = localStorage.getItem(AppConstants.session_user);
-    if(jsonUser == null)
-      return new SessionUser("");
-    return new SessionUser(jsonUser);
+  { 
+    let json: string | null = localStorage.getItem(AppConstants.session_user);
+    if(json == null)
+      return { lastName: "", firstName: "", id: 0, fullName: "" };
+    const userInfo: IAuthResponse = JSON.parse(json);
+    return new SessionUser(userInfo.firstName, userInfo.lastName, userInfo.id);
   }
 
   public clearSession(): void
@@ -84,6 +85,8 @@ export default class App extends Vue
 
     if (authToken != null)  localStorage.removeItem(AppConstants.auth_token);
     if (sessionUser != null)  localStorage.removeItem(AppConstants.session_user);
+
+    this.$router.push({ name: "Login" });
   }
 
   public back()
