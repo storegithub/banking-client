@@ -10,6 +10,8 @@ import { IRegisterUser } from '@/models/regiter.user';
 import { IConfirmationCode } from '@/models/confirmation.code';
 import { ICheckCustomer } from '@/models/check.customer';
 import { ICodeValidate } from '@/models/caode.validate';
+import { Portfolio } from '@/models/portfolio.interface';
+import { BankAccountItem } from '@/models/bank.account.item';
 
 export const authapi = axios.create({
     baseURL: "http://localhost:3002/",
@@ -190,14 +192,72 @@ export async function updateProfile(customer: Customer): Promise<ICustomer | nul
     return data;
 };
 
-export async function addContact(customer: IUserContact): Promise<IApiResult | null>
+export async function addContact(contact: IUserContact): Promise<IApiResult | null>
 {
     let data: IApiResult | null = null;
     try
     { 
         // APIJwtHelper.set();
-        const response: AxiosResponse<IApiResult> = await api.post("contact", customer);
+        const response: AxiosResponse<IApiResult> = await api.post("contact", contact);
         // APIJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
+
+export async function addPortfolio(userId: number): Promise<Portfolio | null>
+{
+    let data: Portfolio | null = null;
+    try
+    { 
+        APIJwtHelper.set();
+        const response: AxiosResponse<Portfolio> = await api.get("/account/portfolio/"+userId);
+        APIJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
+export async function createNewAccount(): Promise<BankAccountItem | null>
+{
+    let data: BankAccountItem | null = null;
+    try
+    { 
+        APIJwtHelper.set();
+        const response: AxiosResponse<BankAccountItem> = await api.get("account/newAccount");
+        APIJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
+export async function saveNewAccount(newAccount: BankAccountItem): Promise<BankAccountItem | null>
+{
+    let data: BankAccountItem | null = null;
+    try
+    { 
+        APIJwtHelper.set();
+        const response: AxiosResponse<BankAccountItem> = await api.post("account/newAccount", newAccount);
+        APIJwtHelper.clear();
          
         data = response.data;
     }

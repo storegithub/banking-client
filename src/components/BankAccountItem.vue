@@ -2,7 +2,7 @@
    <div class="custom-item-card-body">
         <div class="row">
             <div class="col-sm-8 col-md-8 align-to-left"> 
-                <display-text :value="model.display"></display-text>
+                <display-text :value="model.displayName"></display-text>
             </div>
             <div class="col-sm-2 col-md-2">
                 <display-text :value="model.money"></display-text>
