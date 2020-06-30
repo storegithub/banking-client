@@ -5,8 +5,7 @@
                 <b-card
                     title="Suma disponibila"
                     tag="article"
-                    class="mb-2">
-
+                    class="mb-2"> 
                     <b-card-text> {{model.formatAmount('RON')}}</b-card-text> 
                 </b-card>
             </div>
@@ -65,6 +64,8 @@ import { Portfolio } from '@/models/portfolio.interface';
 import { BankAccountItem } from '@/models/bank.account.item';
 import { CustomComponent } from '../CustomComponent';
 import { Mocks } from '@/mocks';
+import portfolioModule from '../store/modules/portfolio.module';
+import authModule from '@/store/modules/authModule';
 
 @Component({
     components: {   
@@ -112,6 +113,21 @@ export default class PortfolioPage extends CustomComponent
     public back()
     {
         this.$router.back();
+    }
+
+    public async beforeCreate()
+    {
+        try
+        {
+            debugger;
+            const result = await portfolioModule.getPortfolio(authModule.userId);
+            if(result != null)
+                this.model=result;
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
     }
     
 }

@@ -6,6 +6,7 @@ import { IAboutUs } from '@/models/about.interface';
 import { AppConstants } from '@/App.Constants';
 import { IUserContact } from '@/models/user.contact.interface';
 import { IApiResult } from '@/models/api.result';
+import { Portfolio } from '@/models/portfolio.interface';
 
 export const authapi = axios.create({
     baseURL: "http://localhost:3002/",
@@ -118,14 +119,34 @@ export async function updateProfile(customer: Customer): Promise<ICustomer | nul
     return data;
 };
 
-export async function addContact(customer: IUserContact): Promise<IApiResult | null>
+export async function addContact(contact: IUserContact): Promise<IApiResult | null>
 {
     let data: IApiResult | null = null;
     try
     { 
         // APIJwtHelper.set();
-        const response: AxiosResponse<IApiResult> = await api.post("contact", customer);
+        const response: AxiosResponse<IApiResult> = await api.post("contact", contact);
         // APIJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
+
+export async function addPortfolio(userId: number): Promise<Portfolio | null>
+{
+    let data: Portfolio | null = null;
+    try
+    { 
+        APIJwtHelper.set();
+        const response: AxiosResponse<Portfolio> = await api.get("/account/portfolio/"+userId);
+        APIJwtHelper.clear();
          
         data = response.data;
     }

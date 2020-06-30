@@ -21,17 +21,18 @@ export class Portfolio
     public deposits: Array<BankAccountItem> = [];
     public dues: Array<BankAccountItem> = [];
 
-    public get amount(): number
-    { 
-        const reducer = (accumulator: number, currentItem: number) => accumulator + currentItem;
+    public amount: number;
+    // (): number
+    // { 
+    //     const reducer = (accumulator: number, currentItem: number) => accumulator + currentItem;
 
-        const currentAccountsSum: number = this.currentAccounts.map(item => item.amount).reduce(reducer, 0);
-        const econimiesSum: number = this.economies.map(item => item.amount).reduce(reducer, 0);
-        const depositsSum: number = this.deposits.map(item => item.amount).reduce(reducer, 0);
-        const duesSum: number = this.dues.map(item => item.amount).reduce(reducer, 0);
+    //     const currentAccountsSum: number = this.currentAccounts.map(item => item.amount).reduce(reducer, 0);
+    //     const econimiesSum: number = this.economies.map(item => item.amount).reduce(reducer, 0);
+    //     const depositsSum: number = this.deposits.map(item => item.amount).reduce(reducer, 0);
+    //     const duesSum: number = this.dues.map(item => item.amount).reduce(reducer, 0);
 
-        return currentAccountsSum + econimiesSum + depositsSum + duesSum;
-    }
+    //     return currentAccountsSum + econimiesSum + depositsSum + duesSum;
+    // }
 
     public formatAmount(currency: string)
     {
