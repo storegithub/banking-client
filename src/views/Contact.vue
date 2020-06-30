@@ -105,7 +105,6 @@ export default class CotactComponent extends Vue
     
     public async save()
     {
-      debugger;
       let value: IApiResult | null =  await contactModule.post(this.model);
       if(value != null && value.success == true) 
       {

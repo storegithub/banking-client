@@ -21,7 +21,7 @@ export class Portfolio
     public deposits: Array<BankAccountItem> = [];
     public dues: Array<BankAccountItem> = [];
 
-    public amount: number;
+    public amount: number = 0;
     // (): number
     // { 
     //     const reducer = (accumulator: number, currentItem: number) => accumulator + currentItem;

@@ -6,11 +6,13 @@ export class BankAccountItem
 {  
     public id!: number;
     public alias!: string;
-    public display!: string;    
+    public displayName!: string;    
     public accountType!: string;
     public amount!: number;
     public currency!: string; 
-    public accountNo!: string;
+    public currencyValue!: string; 
+    public accountNumber!: string;
+    public iban!: string;
 
     public currencies: SelectItem<string, string>[] = [];
     public accountTypes: SelectItem<string, string>[] = [];
@@ -25,7 +27,7 @@ export class BankAccountItem
     {
         if(this.alias != null && this.alias != "")
             return this.alias;
-        return this.display;
+        return this.displayName;
     }
 
     public static mapJson(input: string): BankAccountItem
@@ -41,13 +43,15 @@ export class BankAccountItem
             item.amount = value.amount;
             item.currency = value.currency;
             item.accountType = value.accountType;
-            item.display = value.display;
+            item.displayName = value.displayName;
+            item.iban=value.iban;
+            item.accountNumber=value.accountNumber;
         }
 
         return item;
     }
 
-    public static map({ id, alias, amount, currency, accountType, display }: any): BankAccountItem
+    public static map({ id, alias, amount, currency, accountType, displayName, iban, accountNumber }: any): BankAccountItem
     {
         let item: BankAccountItem = new BankAccountItem(); 
 
@@ -56,7 +60,10 @@ export class BankAccountItem
         item.amount = amount;
         item.currency = currency;
         item.accountType = accountType; 
-        item.display = display;
+        item.displayName = displayName;
+        item.iban=iban;
+        item.accountNumber=accountNumber;
+
         return item;
     }
 }

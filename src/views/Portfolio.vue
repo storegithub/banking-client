@@ -34,7 +34,7 @@
                 :canAdd="canAdd"
                 @onEditBanckAccount="onEditBanckAccount" 
                 @onCreateBankAccount="onCreateBankAccount" 
-                :values="JSON.stringify([])">
+                :values="JSON.stringify(model.deposits)">
             </bank-account-card> 
 
             <bank-account-card 
@@ -42,7 +42,7 @@
                 bankAccountType="Due"
                 @onEditBanckAccount="onEditBanckAccount" 
                 @onCreateBankAccount="onCreateBankAccount" 
-                :values="JSON.stringify([])">
+                :values="JSON.stringify(model.dues)">
             </bank-account-card> 
 
         </b-container>
@@ -88,10 +88,10 @@ export default class PortfolioPage extends CustomComponent
 
     mounted()
     {
-        this.model.currentAccounts = Mocks.BankAccounts.filter(item => item.accountType == 'CurrentAccount');
-        this.model.economies = Mocks.BankAccounts.filter(item => item.accountType == 'Economies');
-        this.model.dues = Mocks.BankAccounts.filter(item => item.accountType == 'Due');
-        this.model.deposits = Mocks.BankAccounts.filter(item => item.accountType == 'Deposit');
+        // this.model.currentAccounts = Mocks.BankAccounts.filter(item => item.accountType == 'CurrentAccount');
+        // this.model.economies = Mocks.BankAccounts.filter(item => item.accountType == 'Economies');
+        // this.model.dues = Mocks.BankAccounts.filter(item => item.accountType == 'Due');
+        // this.model.deposits = Mocks.BankAccounts.filter(item => item.accountType == 'Deposit');
     }
     
     getValidationState(context: ValidationContext) {
@@ -118,11 +118,17 @@ export default class PortfolioPage extends CustomComponent
     public async beforeCreate()
     {
         try
-        {
-            debugger;
+        { 
             const result = await portfolioModule.getPortfolio(authModule.userId);
             if(result != null)
-                this.model=result;
+            {
+                this.model=new Portfolio();
+                this.model.currentAccounts=result.currentAccounts;
+                this.model.economies=result.economies;
+                this.model.deposits=result.deposits;
+                this.model.dues=result.dues;
+                this.model.amount=result.amount;
+            }
         }
         catch(err)
         {
