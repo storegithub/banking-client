@@ -115,3 +115,22 @@ export async function updateProfile(customer: Customer): Promise<ICustomer | nul
 
     return data;
 };
+
+export async function addContact(customer: Customer): Promise<ICustomer | null>
+{
+    let data: ICustomer | null = null;
+    try
+    { 
+        AUTHJwtHelper.set();
+        const response: AxiosResponse<ICustomer> = await authapi.put("auth", customer);
+        AUTHJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
