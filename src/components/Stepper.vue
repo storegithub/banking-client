@@ -166,7 +166,7 @@ export default class Stepper extends Vue {
   {
     let latestIndex: number = this.config.indexOf(this.lastPage);
     if(this.index < latestIndex && this.index > -1 )
-      this.index++;
+      this.index--;
   }
 
   done()

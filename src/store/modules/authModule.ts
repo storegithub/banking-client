@@ -21,6 +21,7 @@ class AuthModule extends VuexModule
     @Mutation
     setAuth(authResponse: IAuthResponse)
     {
+        debugger;
         this.response = authResponse;
         if(authResponse.success == true)
         {
@@ -47,6 +48,7 @@ class AuthModule extends VuexModule
     @Action({ commit: 'setAuth' })
     async login(request: AuthRequest): Promise<IAuthResponse | null>
     {
+        debugger;
         const value: IAuthResponse | null = await login(request); 
          
         return value;

@@ -13,6 +13,7 @@ export class BankAccountItem
     public currencyValue!: string; 
     public accountNumber!: string;
     public iban!: string;
+    public userId!: number;
 
     public currencies: SelectItem<string, string>[] = [];
     public accountTypes: SelectItem<string, string>[] = [];

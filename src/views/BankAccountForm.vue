@@ -9,17 +9,23 @@
       </b-container>
       <b-container class="body-container font form-background">
         <div class="row row-style">
+            <div class="col-sm-2 col-md-2 right"><b>Denumire afisare:</b></div>
+            <div class="col-sm-2 col-md-4">
+                <b-input type="text" v-model="model.displayName" />
+            </div> 
+        </div>
+        <div class="row row-style">
             <div class="col-sm-2 col-md-2 right"><b>Numar cont:</b></div>
-            <div class="col-sm-2 col-md-4">{{model.accountNumber}}</div> 
+            <div class="col-sm-2 col-md-4 left">{{model.accountNumber}}</div> 
         </div>
         <div class="row row-style">
             <div class="col-sm-2 col-md-2 right"><b>IBAN:</b></div>
-            <div class="col-sm-2 col-md-4">{{model.iban}}</div> 
+            <div class="col-sm-2 col-md-4 left">{{model.iban}}</div> 
         </div>
         <div class="row row-style">
             <div class="col-sm-2 col-md-2 right"><b>Tip cont:</b></div>
             <div class="col-sm-2 col-md-4">
-              <b-form-select v-model="model.accountType" :options="model.accountTypes"></b-form-select>
+              <b-form-select v-model="model.accountType" :disabled="true" :options="model.accountTypes"></b-form-select>
             </div>
         </div> 
         <div class="row row-style">
@@ -65,6 +71,7 @@ import { CustomComponent } from '../CustomComponent';
 import { BankAccountItem } from '../models/bank.account.item';
 import { IApiResult } from '../models/api.result';
 import newBankAccountModule from '../store/modules/portfolio.module';
+import authModule from '../store/modules/authModule';
  
 @Component
 export default class BankAccountFormComponent extends CustomComponent
@@ -72,7 +79,7 @@ export default class BankAccountFormComponent extends CustomComponent
   private bankAccountId!: number;
   private bankAccountType!: string;
   public set routeValues({ id, type }: any) 
-  { 
+  {  
     this.bankAccountId = id == null ? -9999: id;
     this.bankAccountType = type;
 
@@ -85,41 +92,20 @@ export default class BankAccountFormComponent extends CustomComponent
   public model: BankAccountItem | null = new BankAccountItem();
 
   async beforeCreate()
-{
-  const data: BankAccountItem | null = await newBankAccountModule.createAccount();
-  if(data == null)
-    console.log("err");
-  
-  if(this.model!=null && data!=null)
-    this.model.accountNumber=data.accountNumber;
+  {
+    this.routeValues = this.$route.params;
 
-  this.model = data;
+    const data: BankAccountItem | null = await newBankAccountModule.createAccount();
+    if(data == null)
+      console.log("err");
+    
+    if(this.model!=null && data!=null)
+      this.model.accountNumber=data.accountNumber;
+ 
+    this.model = data;
+    if(this.bankAccountType != null && this.model != null)
+      this.model.accountType = this.bankAccountType; 
   }
-
-
-  // mounted ()
-  // {
-  //   this.routeValues = this.$route.params;
-
-  //   this.model = new BankAccountItem();
-  //   this.model.accountType = this.routeValues.type;
-  //   //this.model.accountNo = this.createBankAccountNo();
-  //   this.model.iban=this.routeValues.iban;
-  //   this.model.accountTypes=this.routeValues.accountTypes;
-  //   this.model.currencies=this.routeValues.accountTypes
-  //   // this.model.accountTypes = [
-  //   //   { value:"currentaccount", text: "Cont curent" },
-  //   //   { value:"economies", text: "Economii" },
-  //   //   { value: "deposit", text: "Depozit" },
-  //   //   { value: "debt", text: "Imprumut" }
-      
-  //   // ];
-
-  //   // this.model.currencies = [
-  //   //   { value:"RON", text: "RON" },
-  //   //   { value:"EUR", text: "EURO" },
-  //   // ];
-  // }
 
 
   public createBankAccountNo(): string
@@ -131,9 +117,14 @@ export default class BankAccountFormComponent extends CustomComponent
 
    public async save()
     {
-      if(this.model!=null){
+      debugger;
+      if(this.model!=null)
+      {
+        this.model.userId = authModule.userId;
         let value: BankAccountItem | null =  await newBankAccountModule.post(this.model);
-        return value;
+        
+        
+        this.$router.push({ name: 'Home' })  ;
       }
     }
 

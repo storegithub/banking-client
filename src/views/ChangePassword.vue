@@ -1,25 +1,18 @@
 <template>
-    <div class="body-color body">
-        <div>
-            <b-navbar toggleable="lg" type="dark" variant="dark">
-                <b-navbar-brand>
-                    <b-button variant="dark"><b-icon icon="arrow-left" @click="back"></b-icon></b-button>
-                </b-navbar-brand >
-            </b-navbar>
-        </div>
+    <div class="body-color body"> 
         <div class="stepper-position">
             <b-container>
             <b-row>
                 <b-col>
-                    <Stepper :settings="stepperSettings" bedge="primary" :canContinue="canContinue" :canFinish="canFinish">
+                    <Stepper ref="stepper" :settings="stepperSettings" bedge="primary" @onNext="next" @onPrevious="previous" @onDone="done">
                         <b-container fluid slot="tab1">
                             <b-row>
                                 <b-col>
                                     <validation-provider name="username" :rules="{ required: true, min: 8 }" v-slot="validationContext">
-                                        <b-form-group size="sm" label="Utilzator" label-for="username">
+                                        <b-form-group size="sm" label="Email" label-for="username">
                                             <b-form-input 
                                                 id="username"
-                                                v-model="username" 
+                                                v-model="model.email" 
                                                 :state="getValidationState(validationContext)"
                                                 placeholder="Completeaza..."
                                                 required>
@@ -35,7 +28,7 @@
                                         <b-form-group size="sm" label="Seria" label-for="pidSerial">
                                             <b-form-input 
                                                 id="pidSerial"
-                                                v-model="pidSerial" 
+                                                v-model="model.series" 
                                                 :state="getValidationState(validationContext)"
                                                 placeholder="Completeaza..."
                                                 required>
@@ -49,13 +42,49 @@
                                         <b-form-group size="sm" label="Utilzator" label-for="pidNo">
                                             <b-form-input 
                                                 id="pidNo"
-                                                v-model="pidNo" 
+                                                v-model="model.number" 
                                                 :state="getValidationState(validationContext)"
                                                 placeholder="Completeaza..."
                                                 required>
                                             </b-form-input> 
                                         </b-form-group>
                                         <b-form-invalid-feedback id="pidNo-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                    </validation-provider>
+                                </b-col>
+                            </b-row>
+                        </b-container>
+                        <b-container fluid slot="secondTab">
+                             <b-row>
+                                <b-col>
+                                     <validation-provider name="password" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                                        <b-form-group size="sm" label="Parola" label-for="password">
+                                            <b-form-input 
+                                                type="password"
+                                                id="password"
+                                                v-model="model.password" 
+                                                :state="getValidationState(validationContext)"
+                                                placeholder="Completeaza parola"
+                                                required>
+                                            </b-form-input> 
+                                        </b-form-group>
+                                        <b-form-invalid-feedback id="password-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
+                                    </validation-provider>
+                                </b-col>
+                            </b-row>
+                             <b-row>
+                                <b-col>
+                                     <validation-provider name="confirmPassword" :rules="{ required: true, min: 10 }" v-slot="validationContext">
+                                        <b-form-group size="sm" label="Confirmare parola" label-for="confirmPassword">
+                                            <b-form-input 
+                                                type="password"
+                                                id="confirm-password"
+                                                v-model="model.confirmPassword" 
+                                                :state="getValidationState(validationContext)"
+                                                placeholder="Completeaza parola"
+                                                required>
+                                            </b-form-input> 
+                                        </b-form-group>
+                                        <b-form-invalid-feedback id="confirmPassword-live-feedback">{{ validationContext.errors[0] }}</b-form-invalid-feedback>
                                     </validation-provider>
                                 </b-col>
                             </b-row>
@@ -67,7 +96,7 @@
                                         <b-form-group size="sm" label="Cod validare" label-for="validationCode">
                                             <b-form-input 
                                                 id="validationCode"
-                                                v-model="validationCode" 
+                                                v-model="model.code" 
                                                 :state="getValidationState(validationContext)"
                                                 placeholder="Completeaza..."
                                                 required>
@@ -112,6 +141,11 @@ import Stepper from '@/components/Stepper.vue';
 import { IStepperSetting } from '../models/stepper.setting';
 import { KeyValue } from '@/models/helper.keyvalue';
 import { CustomComponent } from '../CustomComponent';
+import { ICheckCustomer } from '@/models/check.customer';
+import { ICodeValidate } from '@/models/caode.validate';
+import { IChangePassword } from '@/models/changePassword.model';
+import { IApiResult } from '@/models/api.result';
+import changePasswordModule from '../store/modules/changePasswordModule';
 
 @Component({
     components: {
@@ -122,16 +156,21 @@ export default class ChangePassword extends CustomComponent
 { 
     public stepperSettings: string = JSON.stringify([
         { id: "tab1", title: "Completeaza datele", subtitle: null, icon: "arrow-up", useIcon: false, order: 1 },
-        { id: "tab2", title: "Primeste email", subtitle: null, icon: "arrow-down", useIcon: false, order: 2 },
-        { id: "tab3", title: "Finalizare", subtitle: null, icon: "arrow-down", useIcon: false, order: 3 }
+        { id: "secondTab", title: "Adauga parola", subtitle: null, icon: "arrow-down", useIcon: false, order: 2 },
+        { id: "tab2", title: "Primeste email", subtitle: null, icon: "arrow-down", useIcon: false, order: 3 },
+        { id: "tab3", title: "Finalizare", subtitle: null, icon: "arrow-down", useIcon: false, order: 4 }
     ]);
 
-    @Prop() username!:string;
-    @Prop() pidSerial!:string;
-    @Prop() pidNo!:string;
-
-    @Prop() validationCode!:string;
-
+    public model: IChangePassword = {
+        email: "",
+        series: "",
+        number: "",
+        code: "",
+        password: "",
+        confirmPassword: ""
+    };
+ 
+    
     getValidationState(context: ValidationContext) {
         const { dirty, validated, valid } = context;
 
@@ -139,13 +178,45 @@ export default class ChangePassword extends CustomComponent
     }
     
     private errors: KeyValue<string, string>[] = [];
-
-    get canContinue(): boolean { return true; }
-    get canFinish(): boolean { return true; }
-
+ 
     public back()
     {
         this.$router.back();
+    }
+
+    public async next(newIndex: number, model: any)
+    { 
+        const stepper: Stepper = this.$children[0] as Stepper;
+        switch(newIndex)
+        {
+            case 1:
+                const response1: IApiResult | null =  await changePasswordModule.checkUser({ email: this.model.email, number: this.model.number, series: this.model.series });
+                if(response1 == null || response1.success == false) throw new Error();
+                stepper.increment();  
+            break;
+            case 2:  
+                const response2: IApiResult | null =  await changePasswordModule.sendResetPasswordCode(this.model.email);
+                if(response2 == null || response2.success == false) throw new Error();
+                stepper.increment();   
+            break; 
+            case 3:
+                const response3: IApiResult | null =  await changePasswordModule.changePassword(this.model);
+                if(response3 == null || response3.success == false) throw new Error();
+                stepper.increment(); 
+            break; 
+
+        }
+        console.log(newIndex);
+    }
+    public previous(newIndex: number, model: any)
+    { 
+        const stepper: Stepper = this.$children[0] as Stepper;
+        stepper.decrement(); 
+    }
+
+    public done(newIndex: number, model: any)
+    {
+        this.$router.push("Login");
     }
     
 }

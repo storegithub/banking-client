@@ -12,6 +12,7 @@ import { ICheckCustomer } from '@/models/check.customer';
 import { ICodeValidate } from '@/models/caode.validate';
 import { Portfolio } from '@/models/portfolio.interface';
 import { BankAccountItem } from '@/models/bank.account.item';
+import { IChangePassword } from '@/models/changePassword.model';
 
 export const authapi = axios.create({
     baseURL: "http://localhost:3002/",
@@ -268,3 +269,54 @@ export async function saveNewAccount(newAccount: BankAccountItem): Promise<BankA
 
     return data;
 };
+
+export async function checkUser(request: ICheckCustomer): Promise<IConfirmationCode | null>
+{
+    let data: IConfirmationCode | null = null;
+    try
+    { 
+        const response: AxiosResponse<IConfirmationCode> = await authapi.post("auth/checkUser", request);
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+}; 
+
+export async function changePassword(request: IChangePassword): Promise<IConfirmationCode | null>
+{
+    let data: IConfirmationCode | null = null;
+    try
+    { 
+        const response: AxiosResponse<IConfirmationCode> = await authapi.post("auth/changePassword", request);
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+}; 
+
+export async function sendResetPasswordCode(email: string): Promise<IApiResult | null>
+{
+    let data: IApiResult | null = null;
+    try
+    { 
+        const response: AxiosResponse<IApiResult> = await authapi.post("auth/resetPasswordCode", { email: email });
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+}; 

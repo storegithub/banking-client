@@ -12,7 +12,7 @@
             
             <bank-account-card 
                 label="Cont curent" 
-                bankAccountType="CurrentAccount"
+                bankAccountType="current"
                 :canAdd="canAdd"
                 @onEditBanckAccount="onEditBanckAccount" 
                 @onCreateBankAccount="onCreateBankAccount" 
@@ -22,7 +22,7 @@
             <bank-account-card 
                 label="Economii" 
                 :canAdd="canAdd"
-                bankAccountType="Economies"
+                bankAccountType="eco"
                 @onEditBanckAccount="onEditBanckAccount" 
                 @onCreateBankAccount="onCreateBankAccount" 
                 :values="JSON.stringify(model.economies)">
@@ -30,7 +30,7 @@
 
             <bank-account-card 
                 label="Depozite" 
-                bankAccountType="Deposit"
+                bankAccountType="depo"
                 :canAdd="canAdd"
                 @onEditBanckAccount="onEditBanckAccount" 
                 @onCreateBankAccount="onCreateBankAccount" 
@@ -39,7 +39,7 @@
 
             <bank-account-card 
                 label="Imprumuturi" 
-                bankAccountType="Due"
+                bankAccountType="due"
                 @onEditBanckAccount="onEditBanckAccount" 
                 @onCreateBankAccount="onCreateBankAccount" 
                 :values="JSON.stringify(model.dues)">
