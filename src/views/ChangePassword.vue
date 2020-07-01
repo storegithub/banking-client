@@ -39,7 +39,7 @@
                                 </b-col>
                                 <b-col>
                                     <validation-provider name="pidNo" :rules="{ required: true, min: 6 }" v-slot="validationContext">
-                                        <b-form-group size="sm" label="Utilzator" label-for="pidNo">
+                                        <b-form-group size="sm" label="Numar: " label-for="pidNo">
                                             <b-form-input 
                                                 id="pidNo"
                                                 v-model="model.number" 

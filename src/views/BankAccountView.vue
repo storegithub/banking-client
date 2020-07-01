@@ -2,7 +2,7 @@
     <div class="body-color body">
       <b-container class="body-container">
           <bank-account-detail
-            v-if="model.bankAccountItem != null"
+            v-if="displayHeader == true"
             :data="JSON.stringify(model.bankAccountItem)"
           >
           </bank-account-detail>
@@ -16,14 +16,14 @@
                 <b-button  
                     pill
                     class="font-size-90" 
-                    @click="onReportRequest" 
+                    @click="addTransaction" 
                     variant="light">
-                    <b-icon-calendar2-date></b-icon-calendar2-date>
+                    <b-icon-plus-circle></b-icon-plus-circle>
                 </b-button>
             </div>
         </bank-account-header>
 
-        <div v-if="showFilter==true" class="transaction-report-container">
+        <!-- <div v-if="showFilter==true" class="transaction-report-container">
             <div class="row padding-row ">
                 <div class="col-sm-4 col-md-4">
                      <div>
@@ -42,13 +42,13 @@
                     <b-form-select v-model="filter.type" :options="filter.typeOptions" ></b-form-select>
                 </div>
             </div> 
-        </div>
+        </div> -->
 
         <bank-account-transaction 
             v-for="row in model.transactions" 
             :key="row.id" 
             :name="bindName('bank-account-transaction', row.id)" 
-            :data="row.getJson()" 
+            :data="JSON.stringify(row)" 
         >
         </bank-account-transaction>
       </b-container>
@@ -85,6 +85,8 @@ import { TransacionReport } from '../models/transaction.report';
 import BankAccountHeader from '../components/BankAccountHeader.vue';
 import BankAccountTransactionComponent from '@/components/BankAccountTransaction.vue';
 import BankAccountDetailComponent from '@/components/BankAccountDetail.vue';
+import transactioModule from '../store/modules/transactioModule';
+import portfolioModule from '../store/modules/portfolio.module';
 
 
 @Component({
@@ -96,6 +98,7 @@ import BankAccountDetailComponent from '@/components/BankAccountDetail.vue';
 })
 export default class BankAccountViewComponent extends CustomComponent
 {   
+  public displayHeader: boolean = false;
   private bankAccountId!: number;
   private bankAccountType!: string;
   public set routeValues({ id, type }: any) 
@@ -109,15 +112,15 @@ export default class BankAccountViewComponent extends CustomComponent
     return { id: this.bankAccountId, type: this.bankAccountType }; 
   }
   
-  created()
-  {  
+  async beforeCreate()
+  {   
     this.routeValues = this.$route.params;
-    const currentItem: BankAccountItem | undefined = Mocks.BankAccounts.find(item => item.id == this.bankAccountId);
-    if(currentItem !== undefined) 
-    { 
-        this.model.bankAccountItem = currentItem; 
-        this.model.transactions = Mocks.BankAccountTransactions.filter(item => item.bankAccountId == currentItem.id);
-        this.filter.typeOptions = Mocks.TransactionTypes;
+    this.model.transactions = await transactioModule.getAccountTransactions(this.bankAccountId);
+    const account: BankAccountItem | null = await portfolioModule.getById(this.bankAccountId);
+    if(account != null) 
+    {
+      this.model.bankAccountItem = account;
+      this.displayHeader = true;
     }  
   }
 
@@ -125,9 +128,9 @@ export default class BankAccountViewComponent extends CustomComponent
   public filter: TransacionReport = new TransacionReport();
 
   public showFilter: boolean = false;
-  public onReportRequest()
+  public addTransaction()
   {
-      this.showFilter = !this.showFilter;
+       this.$router.push({ name: "NewTransaction", params: { accountId: this.bankAccountId.toString() } });
   }
 
   public back()

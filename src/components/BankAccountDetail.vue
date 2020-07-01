@@ -5,9 +5,14 @@
                 :title="title"
                 tag="article"
                 class="mb-2">
-
                 <b-card-text> 
-                    {{formatAmount("RON")}}
+                    Numar cont: {{model.accountNumber}}
+                </b-card-text>
+                <b-card-text> 
+                    IBAN: {{model.iban}}
+                </b-card-text> 
+                <b-card-text> 
+                    Sold: {{formatAmount("RON")}}
                 </b-card-text> 
             </b-card>
         </div>

@@ -98,6 +98,15 @@ const routes: Array<RouteConfig> =
       requiresAuth: true
     }
   }
+  ,
+  {
+    path: '/newTransaction/:accountId',
+    name: 'NewTransaction',
+    component: () => import( '../views/Transaction.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  }
 ]
 
 const router = new VueRouter({

@@ -13,6 +13,7 @@ import { ICodeValidate } from '@/models/caode.validate';
 import { Portfolio } from '@/models/portfolio.interface';
 import { BankAccountItem } from '@/models/bank.account.item';
 import { IChangePassword } from '@/models/changePassword.model';
+import { BankAccountTransaction } from '@/models/bankaccount.transaction';
 
 export const authapi = axios.create({
     baseURL: "http://localhost:3002/",
@@ -251,6 +252,25 @@ export async function createNewAccount(): Promise<BankAccountItem | null>
     return data;
 };
 
+export async function getById(id: number): Promise<BankAccountItem | null>
+{
+    let data: BankAccountItem | null = null;
+    try
+    { 
+        APIJwtHelper.set();
+        const response: AxiosResponse<BankAccountItem> = await api.get("account/find/"+id);
+        APIJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
 export async function saveNewAccount(newAccount: BankAccountItem): Promise<BankAccountItem | null>
 {
     let data: BankAccountItem | null = null;
@@ -320,3 +340,61 @@ export async function sendResetPasswordCode(email: string): Promise<IApiResult |
 
     return data;
 }; 
+
+
+export async function addTransaction(transaction:  BankAccountTransaction): Promise<IApiResult | null>
+{
+    let data: IApiResult | null = null;
+    try
+    { 
+        APIJwtHelper.set();
+        const response: AxiosResponse<IApiResult> = await api.post("transaction", transaction);
+        APIJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
+export async function getAccountTransactions(accountId:  number): Promise<BankAccountTransaction[]>
+{
+    let data: BankAccountTransaction[] = [];
+    try
+    { 
+        APIJwtHelper.set();
+        const response: AxiosResponse<BankAccountTransaction[]> = await api.get("transaction/"+accountId);
+        APIJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};
+
+export async function newTransaction(accountId:  number): Promise<BankAccountTransaction | null>
+{
+    let data: BankAccountTransaction | null = null;
+    try
+    { 
+        APIJwtHelper.set();
+        const response: AxiosResponse<BankAccountTransaction | null> = await api.get("transaction/newTransaction/"+accountId);
+        APIJwtHelper.clear();
+         
+        data = response.data;
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+
+    return data;
+};

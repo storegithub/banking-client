@@ -1,7 +1,7 @@
 import { Module, VuexModule, getModule, MutationAction, Action, Mutation } from 'vuex-module-decorators';
 import store from '@/store';
 import { Portfolio } from '@/models/portfolio.interface';
-import {  addPortfolio, createNewAccount, saveNewAccount } from '../api';
+import {  addPortfolio, createNewAccount, saveNewAccount, getById } from '../api';
 import { BankAccountItem } from '@/models/bank.account.item';
 
 @Module({
@@ -46,6 +46,14 @@ class PortfolioModule extends VuexModule
     async post(data: BankAccountItem): Promise<BankAccountItem | null>
     {
         const value: BankAccountItem | null = await saveNewAccount(data);
+         
+        return value;
+    }
+
+    @Action
+    async getById(id: number): Promise<BankAccountItem | null>
+    {
+        const value: BankAccountItem | null = await getById(id);
          
         return value;
     }

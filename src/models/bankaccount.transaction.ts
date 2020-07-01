@@ -3,27 +3,26 @@ import { CustomComponent } from '../CustomComponent';
 export class BankAccountTransaction
 {
     public id!: number;
-    public bankAccountId!: number;
-    public transferedAmount!: number;
-    public currentAmount!: number;
+    public fromAccountId!: number;
+    public fromAccount!: string;
+    public fromAccountNumber!: string;
+    public amount!: number; 
     public description!: string;
     public moment!: string;
-    public type!: string;
-    public IBAN!:string;
+    public transactionType!: string;
+    public accountNumber!:string;
     public partner!: string;
     public currency!: string;
 
-    public static map({id , bankAccountId, partner, IBAN, description, currentAmount, transferedAmount, moment, type, currency }: any): BankAccountTransaction
+    public static map({id , fromAccountId, partner, accountNumber, description, amount, transactionType, currency }: any): BankAccountTransaction
     {
         let item : BankAccountTransaction = new BankAccountTransaction();
         item.id=id;
-        item.bankAccountId=bankAccountId;
-        item.IBAN=IBAN;
-        item.description=description;
-        item.currentAmount=currentAmount;
-        item.transferedAmount=transferedAmount;
-        item.moment=moment;
-        item.type=type;
+        item.fromAccountId = fromAccountId;
+        item.accountNumber = accountNumber;
+        item.description = description; 
+        item.amount=amount; 
+        item.transactionType = transactionType;
         item.partner = partner;
         item.currency = currency;
         return item;
@@ -38,13 +37,12 @@ export class BankAccountTransaction
         {
             let value = JSON.parse(input);
             item.id = value.id;
-            item.bankAccountId = value.bankAccountId;
-            item.IBAN = value.IBAN;
-            item.description = value.description;
-            item.currentAmount = value.currentAmount;
-            item.transferedAmount = value.transferedAmount;
+            item.fromAccountId = value.fromAccountId;
+            item.accountNumber = value.accountNumber;
+            item.description = value.description; 
+            item.amount = value.amount;
             item.moment = value.moment;
-            item.type = value.type;
+            item.transactionType = value.transactionType;
             item.partner = value.partner;
             item.currency = value.currency;
         }
@@ -55,6 +53,5 @@ export class BankAccountTransaction
 
     public getJson = (): string => JSON.stringify(this);
 
-    public formatTransferedAmount = (): string => `${this.transferedAmount} ${this.currency}`;
-    public formatCurrentAmount = (): string => `${this.currentAmount} ${this.currency}`;
+    public formatAmount = (): string => `${this.amount} ${this.currency}`; 
 }

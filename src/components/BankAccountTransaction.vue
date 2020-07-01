@@ -6,8 +6,10 @@
                 <div><display-text :value="model.description"></display-text></div> 
             </div>
             <div class="col-sm-4 col-md-4 right">
-                <span class="debit-color" v-if="model.type == 'debit'">-</span>
-                <display-text :class="{ 'credit-color': model.type == 'credit', 'debit-color': model.type == 'debit' }" :value="model.formatTransferedAmount()"></display-text>
+                <span class="debit-color" v-if="model.transactionType == 'Debit'">-</span>
+                <display-text :class="{ 'credit-color': model.transactionType == 'Credit', 'debit-color': model.transactionType == 'Debit' }" 
+                    :value="getFormated(model)">
+                </display-text>
             </div>
         </div>
    </div>
@@ -46,6 +48,10 @@ export default class BankTransactionComponent extends Vue
         return BankAccountTransaction.mapJson(this.data); 
     }
 
+    public getFormated(item: BankAccountTransaction)
+    {
+        return `${item.amount} ${item.currency}`;
+    }
     
 }
 
